@@ -1127,17 +1127,9 @@ def get_discriminated_classes(cls):
     """
     Returns all the classes that a discriminator converts to
     TODO: lru_cache this
+    NOTE: Patched function
     """
-    possible_classes = []
-    key = list(cls.discriminator.keys())[0]
-    if is_type_nullable(cls):
-        possible_classes.append(cls)
-    for discr_cls in cls.discriminator[key].values():
-        if hasattr(discr_cls, 'discriminator') and discr_cls.discriminator is not None:
-            possible_classes.extend(get_discriminated_classes(discr_cls))
-        else:
-            possible_classes.append(discr_cls)
-    return possible_classes
+    return [cls]
 
 
 def get_possible_classes(cls, from_server_context):
